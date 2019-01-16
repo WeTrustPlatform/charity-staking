@@ -13,9 +13,9 @@ Token Curated Registries for Non-profit Organizations
 ### Getting started
 - Install [geth](https://geth.ethereum.org/).
 - (Optional) Install [ipfs](https://ipfs.io/) if you would like to push your build there.
-- Set up [charity-management-serv](https://github.com/WeTrustPlatform/charity-management-serv). Three options:
-    * On local: [docker](https://github.com/WeTrustPlatform/charity-management-serv#docker) might be easier than setting up the whole go-lang dev environment
-    * Shared instance: https://tcr.wetrust.info/api/v0/charities
+- (Optional) Set up [charity-management-serv](https://github.com/WeTrustPlatform/charity-management-serv). Three options:
+    * (Default) Using the shared instance: https://tcr.wetrust.info/api/v0/charities
+    * Set up on local: [docker](https://github.com/WeTrustPlatform/charity-management-serv#docker) might be easier than setting up the whole go-lang dev environment
     * Set up your own AWS instance using [terraform](https://www.terraform.io/): https://github.com/WeTrustPlatform/charity-management-serv/blob/master/staging.tf
 - Install dependencies:
 ```
@@ -34,18 +34,24 @@ new webpack.DefinePlugin({
     * Rinkeby: `npm run dev -- testnet` The contracts already deployed and specified in `config/contract.js`. If you want to deploy your own, make sure your `account[0]` has Rinkeby ETH and remove the contract addresses in the `testnet` config.
 
 
-### Docker
+### (Optional) Docker
+- **Approach 1: Use pre-built image.**
+
 Checkout the latest release:
 ```
 docker pull sihoang/charity-tcr:testnet-latest
 ```
+Launch the container:
+```
+docker run -i --rm -p 8000:80 sihoang/charity-tcr
+```
 
-Checkout the latest code on local:
+- **Approach 2: Build docker image with the latest code on local.**
 ```
 docker build -t charity-tcr .
 ```
 
-These images are built with these args:
+These images are built with these args as default:
 ```
 ARG ENVIRONMENT=testnet
 ARG CMS_URL=https://tcr.wetrust.info/api/v0
@@ -54,7 +60,7 @@ Feel free to overwrite them as you please.
 
 Launch the container:
 ```
-docker run -i --rm -p 8000:80 sihoang/charity-tcr
+docker run -i --rm -p 8000:80 charity-tcr
 ```
 The webserver is at http://localhost:8000
 
